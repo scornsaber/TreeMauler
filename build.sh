@@ -29,7 +29,7 @@ NAME=`basename $HERE`
 
 # 1. Compile
 echo "Compiling with javac..."
-javac -Xlint:deprecation src/*.java -d bin -classpath $BUKKIT -sourcepath src -target 1.6 -g:lines,vars,source -source 1.6 || exit 1
+javac -Xlint:deprecation src/*/*.java -d bin -classpath $BUKKIT -sourcepath src -target 1.6 -g:lines,vars,source -source 1.6 || exit 1
 
 # 2. Build the jar
 echo "Creating jar file..."

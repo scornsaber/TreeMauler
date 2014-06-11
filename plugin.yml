@@ -1,0 +1,16 @@
+name: TreeMauler
+
+author: yourname
+
+main: treemauler.TreeMauler
+
+commands:
+    treemauler:
+        description: Your description goes here
+        usage: Usage of the command goes here
+    treemauler_admin:
+        description: Your description goes here
+        usage: Usage of the command goes here
+
+version: 0.1
+

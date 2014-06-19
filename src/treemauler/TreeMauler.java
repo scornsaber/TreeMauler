@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TreeMauler extends JavaPlugin implements Listener {
 	public static Logger log = Logger.getLogger("Minecraft");
+	private int radius = 5;
 
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
@@ -38,28 +39,33 @@ public class TreeMauler extends JavaPlugin implements Listener {
 					|| (event.getPlayer().getItemInHand().getType() == Material.GOLD_AXE)
 					|| (event.getPlayer().getItemInHand().getType() == Material.DIAMOND_AXE)) {
 				Location loc = event.getBlock().getLocation();
-				breakLog(loc);
+				breakLog(loc, loc.getBlockX(), loc.getBlockZ());
 				log.info("[TreeMauler] Block broken.");
 
 			}
 		}
 	}
 
-	public void breakLog(Location loc) {
+	public void breakLog(Location loc, int x, int z) {
 		if (loc.getBlock().getType() == Material.LOG) {
-			loc.getBlock().breakNaturally();
-			loc.setX(1 + loc.getBlockX());
-			breakLog(loc);
-			loc.setX(loc.getBlockX() - 2);
-			breakLog(loc);
-			loc.setX(loc.getBlockX() + 1);
-			loc.setZ(loc.getBlockZ() - 1);
-			breakLog(loc);
-			loc.setZ(loc.getBlockZ() + 2);
-			breakLog(loc);
-			loc.setZ(loc.getBlockZ() - 1);
-			loc.setY(1 + loc.getBlockY());
-			breakLog(loc);
+			int i = loc.getBlockX();
+			int j = loc.getBlockZ();
+			if ((i >= x - radius) && (i <= x + radius) && (j >= z - radius)
+					&& (j <= z + radius)) {
+				loc.getBlock().breakNaturally();
+				loc.setX(1 + loc.getBlockX());
+				breakLog(loc, x, z);
+				loc.setX(loc.getBlockX() - 2);
+				breakLog(loc, x, z);
+				loc.setX(loc.getBlockX() + 1);
+				loc.setZ(loc.getBlockZ() - 1);
+				breakLog(loc, x, z);
+				loc.setZ(loc.getBlockZ() + 2);
+				breakLog(loc, x, z);
+				loc.setZ(loc.getBlockZ() - 1);
+				loc.setY(1 + loc.getBlockY());
+				breakLog(loc, x, z);
+			}
 		}
 	}
 

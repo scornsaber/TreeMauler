@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TreeMauler extends JavaPlugin implements Listener {
 	public static Logger log = Logger.getLogger("Minecraft");
-	private int radius = 5;
+	private int radius = 10;
 
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
@@ -48,23 +48,25 @@ public class TreeMauler extends JavaPlugin implements Listener {
 
 	public void breakLog(Location loc, int x, int z) {
 		if (loc.getBlock().getType() == Material.LOG) {
+			// Check if current block is within radius of original chopped block.
 			int i = loc.getBlockX();
 			int j = loc.getBlockZ();
 			if ((i >= x - radius) && (i <= x + radius) && (j >= z - radius)
 					&& (j <= z + radius)) {
+				// break this block
 				loc.getBlock().breakNaturally();
-				loc.setX(1 + loc.getBlockX());
-				breakLog(loc, x, z);
-				loc.setX(loc.getBlockX() - 2);
-				breakLog(loc, x, z);
-				loc.setX(loc.getBlockX() + 1);
-				loc.setZ(loc.getBlockZ() - 1);
-				breakLog(loc, x, z);
-				loc.setZ(loc.getBlockZ() + 2);
-				breakLog(loc, x, z);
-				loc.setZ(loc.getBlockZ() - 1);
-				loc.setY(1 + loc.getBlockY());
-				breakLog(loc, x, z);
+				// check all other blocks in a 3x3 ring around current location and above it.
+				Locattion l = loc;
+				for (i = -1; i <= 1; i++) {
+					for (int j = -1; j <= 1; j++) {
+						for (int k = 0; k <= 1; j++) {
+							l.setX(i + loc.getBlockX());
+							l.setY(k + loc.getBlockY());
+							l.setZ(j + loc.getBlockZ());
+							breakLog(l, x, z);
+						}
+					}
+				}
 			}
 		}
 	}

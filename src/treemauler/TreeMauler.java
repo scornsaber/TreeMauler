@@ -38,7 +38,6 @@ public class TreeMauler extends JavaPlugin implements Listener {
 					|| (event.getPlayer().getItemInHand().getType() == Material.GOLD_AXE)
 					|| (event.getPlayer().getItemInHand().getType() == Material.DIAMOND_AXE)) {
 				Location loc = event.getBlock().getLocation();
-				loc.setY(1 + loc.getBlockY());
 				breakLog(loc);
 				log.info("[TreeMauler] Block broken.");
 
@@ -49,6 +48,16 @@ public class TreeMauler extends JavaPlugin implements Listener {
 	public void breakLog(Location loc) {
 		if (loc.getBlock().getType() == Material.LOG) {
 			loc.getBlock().breakNaturally();
+			loc.setX(1 + loc.getBlockX());
+			breakLog(loc);
+			loc.setX(loc.getBlockX() - 2);
+			breakLog(loc);
+			loc.setX(loc.getBlockX() + 1);
+			loc.setZ(loc.getBlockZ() - 1);
+			breakLog(loc);
+			loc.setZ(loc.getBlockZ() + 2);
+			breakLog(loc);
+			loc.setZ(loc.getBlockZ() - 1);
 			loc.setY(1 + loc.getBlockY());
 			breakLog(loc);
 		}

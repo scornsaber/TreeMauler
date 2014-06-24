@@ -48,22 +48,26 @@ public class TreeMauler extends JavaPlugin implements Listener {
 
 	public void breakLog(Location loc, int x, int z) {
 		if (loc.getBlock().getType() == Material.LOG) {
-			// Check if current block is within radius of original chopped block.
+			// Check if current block is within radius of original chopped
+			// block.
 			int i = loc.getBlockX();
 			int j = loc.getBlockZ();
 			if ((i >= x - radius) && (i <= x + radius) && (j >= z - radius)
 					&& (j <= z + radius)) {
 				// break this block
 				loc.getBlock().breakNaturally();
-				// check all other blocks in a 3x3 ring around current location and above it.
-				Locattion l = loc;
+				// check all other blocks in a 3x3 ring around current location
+				// and above it.
+				Location l = loc;
 				for (i = -1; i <= 1; i++) {
-					for (int j = -1; j <= 1; j++) {
+					for (j = -1; j <= 1; j++) {
 						for (int k = 0; k <= 1; j++) {
-							l.setX(i + loc.getBlockX());
-							l.setY(k + loc.getBlockY());
-							l.setZ(j + loc.getBlockZ());
-							breakLog(l, x, z);
+							if (i != 0 || j != 0 || k != 0) {
+								l.setX(i + loc.getBlockX());
+								l.setY(k + loc.getBlockY());
+								l.setZ(j + loc.getBlockZ());
+								breakLog(l, x, z);
+							}
 						}
 					}
 				}
